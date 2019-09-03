@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Product(models.Model):
     name = models.CharField(max_length=255,db_index=True)
     slug = models.SlugField(max_length=255,db_index=True)
-    item_number = models.IntegerField(unique=True)
+    item_number = models.PositiveIntegerField(unique=True)
 
     image_1 = models.ImageField(upload_to='products/%y/%m/%d', blank=True)
     image_2 = models.ImageField(upload_to='products/%y/%m/%d', blank=True)
