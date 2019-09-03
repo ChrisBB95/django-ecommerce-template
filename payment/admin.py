@@ -21,7 +21,7 @@ def mark_shipped(modeladmin, request, queryset):
     queryset.update(shipped=True)
     for order in queryset:
         order_items = order.order_items
-        tracking_numbers = order.tracking_number.split(',')
+        tracking_number = order.tracking_number.split(',')
         email_context = {
             'owner': order.owner,
             'ref_code': order.ref_code,
@@ -40,7 +40,7 @@ def mark_shipped(modeladmin, request, queryset):
             'subtotal': order.subtotal,
             'total': order.total,
             'shipping_method': order.shipping_method,
-            'tracking_numbers': tracking_numbers,
+            'tracking_number': tracking_number,
             'in_store': order.shipping_method == 'In-Store Pickup',
         }
         subject = '###### - Your Order Has Shipped!'
@@ -59,6 +59,8 @@ def mark_shipped(modeladmin, request, queryset):
                        recipient_list=['######'], fail_silently=False, html_message=html_msg)
 mark_shipped.short_description = 'Mark Order As Shipped'
 
+# Order Admin
+
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['owner', 'ref_code', 'shipping_method', 'tracking_number', 'shipped', 'payment_method',
                     'paid', 'refunded', 'total', 'date_ordered']
@@ -70,7 +72,6 @@ class OrderAdmin(admin.ModelAdmin):
         ('Shipping', {'fields': ('tracking_number', 'shipping_address_line_1', 'shipping_address_line_2',
                                  'shipping_city', 'shipping_state', 'shipping_zip')})
     ]
-    #readonly_fields = ('thing1','thing2')
     actions = [refund,mark_shipped]
 
 admin.site.register(Order, OrderAdmin)
