@@ -1,0 +1,4 @@
+Make a base.html template and get the template inheritence stuff working
+Make empty template files for the home page, shop page, product pages, cart, checkout, payment, payment_done
+Wire together views & urls so each of these pages can be reached
+Setup contexts for each page
