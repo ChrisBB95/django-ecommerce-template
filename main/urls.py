@@ -5,10 +5,21 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 #views imports
-################
+from home.views import home, contact, cart
+from shop.views import shop, product
+from payment.views import checkout, process, checkout_complete
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin', admin.site.urls),
+    path('', home, name='home'),
+    path('home', home, name='home'),
+    path('contact', contact, name='contact'),
+    path('cart', cart, name='cart'),
+    path('shop', shop, name='shop'),
+    path('shop/<item_slug>', shop, name='product'),
+    path('checkout', checkout, name='checkout'),
+    path('checkout/process', process, name='process'),
+    path('checkout/complete', checkout_complete, name='checkout_complete'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
