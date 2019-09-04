@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.core import mail
 
 from django.conf import settings
 from shop.models import Product
@@ -17,7 +19,14 @@ def process(request):
 
     return render(request, 'payment/process.html', context)
 
+@csrf_exempt
 def checkout_complete(request):
     context = {}
 
     return render(request, 'payment/checkout_complete.html', context)
+
+@csrf_exempt
+def checkout_canceled(request):
+    context = {}
+
+    return render(request, 'payment/checkout_canceled.html', context)
