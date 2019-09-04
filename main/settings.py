@@ -33,7 +33,7 @@ INSTALLED_APPS = [
 
 #Payment API Keys
 PAYMENT_LIVE = False
-if PAYMENT_LIVE:
+if socket.gethostname() == 'Tim' or not PAYMENT_LIVE:
     STRIPE_PUBLIC_KEY = "######"
     STRIPE_SECRET_KEY = "######"
     paypalrestsdk.configure({
