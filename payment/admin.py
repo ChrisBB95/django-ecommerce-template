@@ -45,7 +45,7 @@ def mark_shipped(modeladmin, request, queryset):
         }
         subject = '###### - Your Order Has Shipped!'
         html_msg = render_to_string(
-            'payment/shipping_confirmation.html', context=email_context)
+            'emails/shipping_confirmation.html', context=email_context)
         plain_msg = strip_tags(html_msg)
         mail.send_mail(subject, plain_msg, from_email=settings.DEFAULT_FROM_EMAIL,
                        recipient_list=[order.owner.email], fail_silently=False, html_message=html_msg)
@@ -53,7 +53,7 @@ def mark_shipped(modeladmin, request, queryset):
         staff_subject = '###### - Order Shipped'
         email_context['staff'] = True
         html_msg = render_to_string(
-            'payment/shipping_confirmation.html', context=email_context)
+            'emails/shipping_confirmation.html', context=email_context)
         plain_msg = strip_tags(html_msg)
         mail.send_mail(staff_subject, plain_msg, from_email=settings.DEFAULT_FROM_EMAIL,
                        recipient_list=['######'], fail_silently=False, html_message=html_msg)
