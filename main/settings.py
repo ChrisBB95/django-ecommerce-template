@@ -34,20 +34,20 @@ INSTALLED_APPS = [
 #Payment API Keys
 PAYMENT_LIVE = False
 if socket.gethostname() == 'Tim' or not PAYMENT_LIVE:
-    STRIPE_PUBLIC_KEY = "######"
-    STRIPE_SECRET_KEY = "######"
-    paypalrestsdk.configure({
-        'mode': 'live',
-        'client_id': '######',
-        'client_secret': '######',
-    })
-else:
-    STRIPE_PUBLIC_KEY = "######"
-    STRIPE_SECRET_KEY = "######"
+    STRIPE_PUBLIC_KEY = "######"    #TEST KEY
+    STRIPE_SECRET_KEY = "######"    #TEST KEY
     paypalrestsdk.configure({
         'mode': 'sandbox',
-        'client_id': '######',
-        'client_secret': '######'
+        'client_id': '######',      #TEST KEY
+        'client_secret': '######',  #TEST KEY
+    })
+else:
+    STRIPE_PUBLIC_KEY = "######"    #PRODUCTION KEY
+    STRIPE_SECRET_KEY = "######"    #PRODUCTION KEY
+    paypalrestsdk.configure({
+        'mode': 'live',
+        'client_id': '######',      #PRODUCTION KEY
+        'client_secret': '######'   #PRODUCTION KEY
     })
 
 #Email Service Configuration
