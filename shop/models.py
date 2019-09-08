@@ -57,6 +57,7 @@ def remove_from_session_cart(request,product):
         del request.session['cart'][product]
     except KeyError:
         print('Product not found in cart')
+    pass
 
 def add_to_user_cart(user,product,quantity,subtotal):
 
