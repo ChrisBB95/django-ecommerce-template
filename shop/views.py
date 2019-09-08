@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 
 from django.conf import settings
-from .models import Product
+from .models import Product, add_to_cart, remove_from_cart
 
 def products(request):
 

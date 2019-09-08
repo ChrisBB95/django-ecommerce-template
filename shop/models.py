@@ -29,6 +29,9 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse("shop:product_detail", args=[self.id, self.slug])
 
+
+#User-Model Cart for shops that require user authentication to shop
+#Alternatively, a session cart can be used when authentication is not required
 class Cart_Item(models.Model):
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
@@ -37,3 +40,21 @@ class Cart_Item(models.Model):
 
     def __str__(self):
         return str(self.quantity) + str(self.product.slug)
+
+def add_to_cart(request,product,quantity,subtotal):
+    if request.session['cart'][product]:
+        current_qty = request.session['cart'][product][0]
+        current_subtotal = request.session['cart'][product][1]
+        request.session['cart'][product] = (quantity+current_qty,subtotal+current_subtotal)
+    else:
+        request.session['cart'][product] = (quantity,subtotal)
+    
+    if request.session['cart'][product][0] > product.stock:
+        request.session['cart'][product] = (product.stock,product.stock*product.price)
+    pass
+
+def remove_from_cart(request,product):
+    try:
+        del request.session['cart'][product]
+    except KeyError:
+        print('Product not found in cart')
