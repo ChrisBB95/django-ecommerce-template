@@ -6,7 +6,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 #views imports
 from home.views import home, contact, cart
-from shop.views import shop, product
+from shop.views import products, product_detail
 from payment.views import checkout, process, checkout_complete, checkout_canceled
 
 urlpatterns = [
@@ -15,8 +15,8 @@ urlpatterns = [
     path('home', home, name='home'),
     path('contact', contact, name='contact'),
     path('cart', cart, name='cart'),
-    path('shop', shop, name='shop'),
-    path('shop/<item_slug>', shop, name='product'),
+    path('products', products, name='products'),
+    path('products/<item_slug>', product_detail, name='product_detail'),
     path('checkout', checkout, name='checkout'),
     path('checkout/process', process, name='process'),
     path('checkout/complete', checkout_complete, name='checkout_complete'),

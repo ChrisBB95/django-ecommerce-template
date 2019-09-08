@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.conf import settings
 from .models import Product
 
-def shop(request):
+def products(request):
 
     products = Product.objects.filter(available=True)
 
@@ -14,7 +14,7 @@ def shop(request):
     return render(request, 'shop/shop.html', context)
 
 
-def product(request, item_slug=None):
+def product_detail(request, item_slug=None):
     
     product = get_object_or_404(
         Product, slug=item_slug, available=True)
