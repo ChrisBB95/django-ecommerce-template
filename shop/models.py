@@ -36,4 +36,4 @@ class Cart_Item(models.Model):
     subtotal = models.DecimalField(max_digits=20, decimal_places=2)
 
     def __str__(self):
-        return str(self.owner.id)
+        return str(self.quantity) + str(self.product.slug)
