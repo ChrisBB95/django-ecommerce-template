@@ -5,7 +5,7 @@ import paypalrestsdk
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-if socket.gethostname() in ["Tim"]:
+if socket.gethostname() in ["Tim","DESKTOP-RM34RT3"]:
     from main.local_settings import *
     with open('key.txt', 'r') as f:
         SECRET_KEY = f.read().strip()
@@ -135,7 +135,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 STATICFILES_DIRS = [(os.path.join(BASE_DIR, "static"))]
 
-if socket.gethostname() == 'Tim':
+if socket.gethostname() in ["Tim","DESKTOP-RM34RT3"]:
     MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 else:
     STATIC_ROOT = '/webapp/site/public/static'
