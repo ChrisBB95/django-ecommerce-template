@@ -29,7 +29,6 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse("shop:product_detail", args=[self.id, self.slug])
 
-
 #User-Model Cart for shops that require user authentication to shop
 #Alternatively, a session cart can be used when authentication is not required
 class Cart_Item(models.Model):
@@ -41,7 +40,7 @@ class Cart_Item(models.Model):
     def __str__(self):
         return str(self.quantity) + str(self.product.slug)
 
-def add_to_cart(request,product,quantity,subtotal):
+def add_to_session_cart(request,product,quantity,subtotal):
     if request.session['cart'][product]:
         current_qty = request.session['cart'][product][0]
         current_subtotal = request.session['cart'][product][1]
@@ -53,8 +52,29 @@ def add_to_cart(request,product,quantity,subtotal):
         request.session['cart'][product] = (product.stock,product.stock*product.price)
     pass
 
-def remove_from_cart(request,product):
+def remove_from_session_cart(request,product):
     try:
         del request.session['cart'][product]
     except KeyError:
         print('Product not found in cart')
+
+def add_to_user_cart(user,product,quantity,subtotal):
+
+    if Cart_Item.objects.filter(owner=user,product=product):
+        cart_item = Cart_Item.objects.filter(owner=user,product=product).first()
+        cart_item.quantity += quantity
+        cart_item.subtotal += (quantity*product.price)
+    else:
+        cart_item = Cart_Item(owner=user,product=product,quantity=quantity,subtotal=subtotal)
+    
+    if cart_item.quantity > product.stock:
+        cart_item.quantity = product.stock
+        cart_item.subtotal = (product.stock*product.price)
+    
+    cart_item.save()
+    pass
+
+def remove_from_user_cart(user,product,quantity,subtotal):
+    cart_item = Cart_Item.objects.filter(owner=user,product=product).first()
+    cart_item.delete()
+    pass
