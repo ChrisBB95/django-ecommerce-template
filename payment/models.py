@@ -3,7 +3,9 @@ from django.contrib import messages
 from django.conf import settings
 from jsonfield import JSONField
 from django.db import models
+from django.core import mail
 
+from shop.models import Cart_Item
 from paypalrestsdk import Payment
 import stripe
 
@@ -79,8 +81,8 @@ def handle_paypal_payment(request,order,cart_items):
             'payment_method': 'paypal',
         },
         'redirect_urls': {
-            'return_url': 'http://{}{}'.format(host, reverse('payment:done')),
-            'cancel_url': 'http://{}{}'.format(host, reverse('payment:canceled')),
+            'return_url': 'http://{}{}'.format(host, reverse('checkout_complete')),
+            'cancel_url': 'http://{}{}'.format(host, reverse('checkout_canceled')),
         },
         'transactions': [{
             'amount': {
@@ -105,3 +107,39 @@ def handle_paypal_payment(request,order,cart_items):
         messages.error(request,'There was an error while processing your payment')
         messages.error(request,str(payment.error))
         pass
+
+#requires user to be authenticated
+def finalize_payment(request,order):
+
+    if request.GET.get('paymentId'):    #from paypal redirect
+        payment = Payment.find(request.GET.get('paymentId'))
+        if payment.execute({'payer_id': request.GET.get('PayerID')}):
+            order.charge_id = payment.transactions[0].related_resources[0].sale.id
+    
+    order.paid = True
+    order.save()
+    order_items = Cart_Item.objects.filter(owner=request.user)
+
+    for item in order_items:
+        product = item.product
+        product.stock -= item.quantity
+        product.save()
+        item.delete()
+
+    email_context = {
+        'order': order
+    }
+
+    subject = '###### -- Order Confirmation '+order.ref_code
+    html_msg = render_to_string(
+        'emails/order_confirmation.html', context=email_context)
+    plain_msg = strip_tags(html_msg)
+    mail.send_mail(subject, plain_msg, from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[order.owner.email], fail_silently=False, html_message=html_msg)
+
+    html_msg = render_to_string(
+        'emails/order_confirmation_staff.html', context=email_context)
+    plain_msg = strip_tags(html_msg)
+    staff_subject = '[######] Order Received - '+order.ref_code
+    mail.send_mail(staff_subject, plain_msg, from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=['######@###.com'], fail_silently=False, html_message=html_msg)
