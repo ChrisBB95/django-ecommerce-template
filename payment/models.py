@@ -143,3 +143,4 @@ def finalize_payment(request,order):
     staff_subject = '[######] Order Received - '+order.ref_code
     mail.send_mail(staff_subject, plain_msg, from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=['######@###.com'], fail_silently=False, html_message=html_msg)
+    pass
