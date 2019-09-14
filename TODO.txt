@@ -1,2 +1,0 @@
-Setup contexts for each page
-Shopping cart setup (session || user-based?) -> perhaps a branch for each

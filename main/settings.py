@@ -5,10 +5,9 @@ import paypalrestsdk
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-if socket.gethostname() in ["Tim","DESKTOP-RM34RT3"]:
+if socket.gethostname() in ["Tim","DESKTOP-RM34RT3","ip-172-31-21-100"]:
     from main.local_settings import *
-    with open('key.txt', 'r') as f:
-        SECRET_KEY = f.read().strip()
+    SECRET_KEY = '###################################'
 else:
     with open('/webapp/auth/key.txt', 'r') as f:
         import pymysql
