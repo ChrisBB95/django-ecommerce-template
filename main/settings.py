@@ -11,10 +11,12 @@ if socket.gethostname() in ["Tim","DESKTOP-RM34RT3"]:
         SECRET_KEY = f.read().strip()
 else:
     with open('/webapp/auth/key.txt', 'r') as f:
+        import pymysql
         from main.production_settings import *
         SECRET_KEY = f.read().strip()
+        pymysql.install_as_MySQLdb()
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['34.221.235.200']
 
 # Application definition
 INSTALLED_APPS = [
