@@ -1,8 +1,5 @@
 DEBUG = False
 
-STATIC_ROOT = '/webapp/site/public/static'
-MEDIA_ROOT = '/webapp/site/public/media'
-
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_SSL_REDIRECT = True
@@ -15,7 +12,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
             'charset': 'utf8mb4',
-            'read_default_file': '/webapp/auth/mysql.cnf'
+            'read_default_file': '/var/www/auth/mysql.cnf'
         },
     }
 }

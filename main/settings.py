@@ -5,17 +5,19 @@ import paypalrestsdk
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-if socket.gethostname() in ["Tim","DESKTOP-RM34RT3"]:
+dev_hosts = ['Tim','DESKTOP-RM34RT3','ip-172-31-22-136']
+
+if socket.gethostname() in dev_hosts:
     from main.local_settings import *
     SECRET_KEY = '###################################'
 else:
-    with open('/webapp/auth/key.txt', 'r') as f:
+    with open('/var/www/auth/key.txt', 'r') as f:
         import pymysql
         from main.production_settings import *
         SECRET_KEY = f.read().strip()
         pymysql.install_as_MySQLdb()
 
-ALLOWED_HOSTS = ['bucketmeadow.com']
+ALLOWED_HOSTS = ['bucketmeadow.com','54.218.68.241']
 
 # Application definition
 INSTALLED_APPS = [
@@ -136,8 +138,8 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 STATICFILES_DIRS = [(os.path.join(BASE_DIR, "static"))]
 
-if socket.gethostname() in ["Tim","DESKTOP-RM34RT3"]:
+if socket.gethostname() in dev_hosts:
     MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 else:
-    STATIC_ROOT = '/webapp/site/public/static'
-    MEDIA_ROOT = '/webapp/site/public/media'
+    STATIC_ROOT = '/var/www/public/static'
+    MEDIA_ROOT = '/var/www/public/media'
