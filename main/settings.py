@@ -5,7 +5,7 @@ import paypalrestsdk
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-dev_hosts = ['Tim','DESKTOP-RM34RT3','ip-172-31-23-75']
+dev_hosts = ['Tim','DESKTOP-RM34RT3','ip-172-31-19-230']
 
 if socket.gethostname() in dev_hosts:
     from main.local_settings import *
@@ -17,7 +17,7 @@ else:
         SECRET_KEY = f.read().strip()
         pymysql.install_as_MySQLdb()
 
-ALLOWED_HOSTS = ['bucketmeadow.com','34.222.56.112']
+ALLOWED_HOSTS = ['bucketmeadow.com','34.220.216.19']
 
 # Application definition
 INSTALLED_APPS = [
