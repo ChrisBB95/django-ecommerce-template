@@ -12,7 +12,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
             'charset': 'utf8mb4',
-            'read_default_file': '/var/www/auth/mysql.cnf'
+            'read_default_file': '/home/ubuntu/auth/mysql.cnf'
         },
     }
 }
